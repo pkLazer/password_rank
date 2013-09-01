@@ -6,7 +6,7 @@ upper = re.compile("[A-Z]")
 nums = re.compile("[0-9]")
 special = re.compile("\W")
 wordsFile = open("./4000-most-common-english-words-csv.csv", "r")
-common = wordFile.readlines()
+common = wordsFile.readlines()
 wordsFile.close()
 
 class ComplexString:
@@ -50,8 +50,15 @@ class ComplexString:
 				self.score += 2
 				hasSpecial = True
 
+	# adds 1 point to SCORE if the ComplexString does not contain a common word 
 	def checkIfCommon(self):
-		print str(len(common))
+		notInCommon = True
+		for word in common:
+			checkWord = re.compile(word.strip())
+			if checkWord.match(self.string):
+				notInCommon = False
+		if notInCommon:
+			self.score += 1
 
 	# Removes questionable input from the password
 	def sanitize(self):
@@ -77,6 +84,7 @@ if password != "":
 	if not password.tooShort():
 		password.checkLen()
 		password.checkComplexity()
+		password.checkIfCommon()
 		print "your password score is " + str(password.getScore())
 	else:
 		print "your password is too short"
