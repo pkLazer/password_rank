@@ -77,8 +77,10 @@ class ComplexString:
 	def getScore(self):
 		return self.score
 
-
-password = raw_input("Enter password: ")
+if len(sys.argv) == 2:
+	password = sys.argv[1]
+else:
+	password = raw_input("Enter password: ")
 if password != "":
 	password = ComplexString(password)
 	if not password.tooShort():
