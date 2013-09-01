@@ -5,7 +5,9 @@ lower = re.compile("[a-z]")
 upper = re.compile("[A-Z]")
 nums = re.compile("[0-9]")
 special = re.compile("\W")
-#common = ["mom","dad","boy","girl"]
+wordsFile = open("./4000-most-common-english-words-csv.csv", "r")
+common = wordFile.readlines()
+wordsFile.close()
 
 class ComplexString:
 	string = None
@@ -49,7 +51,7 @@ class ComplexString:
 				hasSpecial = True
 
 	def checkIfCommon(self):
-		print "not yet implemented"
+		print str(len(common))
 
 	# Removes questionable input from the password
 	def sanitize(self):
