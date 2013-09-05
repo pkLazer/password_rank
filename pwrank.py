@@ -15,7 +15,7 @@ class ComplexString:
 	def __init__(self, string):
 		self.string = string
 
-	# Returns False if the lenght of the string is less than 6
+	# Returns False if the length of the string is less than 6
 	def tooShort(self):
 		return len(self.string) <= 5
 
