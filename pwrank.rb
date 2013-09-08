@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 $lower = /[a-z]/ # matches all lower case  characters
 $upper = /[A-Z]/ # matches all upper case characters
-$special = /\W\s/ # matches special characters, i.e. !@#$%^&*
+$special = /\W/ # matches special characters, i.e. !@#$%^&*
 $nums = /[0-9]/ # matches all numbers
 $common = Array.new
 
@@ -48,16 +48,16 @@ class ComplexString
 	# adds 1 point to SCORE if the ComplexString does not contain a common word
 	def checkIfCommon
 		hasMatch = false
+		# does not work in the case that the 'common' word is uppercase
 		for word in $common
 			word = word.strip
-			if (/#{word}/ =~ @string) != nil
+			if /#{word}/ =~ @string
+				puts "passowrd matches \'" + word + "\'"
 				hasMatch = true # true if it finds a match in the list of common words
 				break
 			end
 		end
-		puts hasMatch
 		if !hasMatch
-			puts "does not have common"
 			@score += 1
 		end
 	end
@@ -69,23 +69,21 @@ class ComplexString
 		hasUpper = false
 		hasLower = false
 		hasNums = false
-		for word in $common
-			if $lower =~ word && !hasLower
-				@score += 1
-				hasLower = true
-			end
-			#if $upper =~ word && !hasUpper
-			#	@score += 2
-			#	hasUpper = true
-			#end
-			if $nums =~ word && !hasNums
-				@score += 1
-				hasNums = true
-			end
-			#f $special =~ word && !hasSpecial
-			#	@score += 2
-			#	hasSpecial = true
-			#end
+		if ($lower =~ @string) && !hasLower
+			@score += 1
+			hasLower = true
+		end
+		if ($upper =~ @string) && !hasUpper
+			@score += 2
+			hasUpper = true
+		end
+		if ($nums =~ @string) && !hasNums
+			@score += 1
+			hasNums = true
+		end
+		if ($special =~ @string) && !hasSpecial
+			@score += 2
+			hasSpecial = true
 		end
 	end
 end
@@ -106,7 +104,7 @@ password = ComplexString.new(password)
 if !password.tooShort?
 	password.checkLen
 	password.checkIfCommon
-	#password.checkComplexity
+	password.checkComplexity
 	puts password.getScore.to_s
 else
 	puts "your password is too short"
