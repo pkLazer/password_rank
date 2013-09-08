@@ -49,8 +49,9 @@ class ComplexString
 	def checkIfCommon
 		hasMatch = false
 		for word in $common
-			if /#{@string}/ =~ word
-				hasMatch = true
+			word = word.strip
+			if (/#{word}/ =~ @string) != nil
+				hasMatch = true # true if it finds a match in the list of common words
 				break
 			end
 		end
